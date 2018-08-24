@@ -7,3 +7,12 @@
     background: #ccc;
     overflow: scroll;
 }
+
+.Edit textarea,
+.Edit input {
+    width: 100%
+}
+
+.Edit textarea {
+    height: 20em;
+}

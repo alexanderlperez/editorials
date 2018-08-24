@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
+import { Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
 import { Link } from 'react-router-dom'
 
 import CONFIG from '../config.json';
@@ -31,16 +31,20 @@ class Articles extends Component {
 
         return (
             <div className="container">
+                <h1>Articles</h1> 
                 <div className="row">
                     <div className="col">
-                        <h1>Articles</h1>
+
+                        <Link to="/article/edit/new">Create New Article</Link>
 
                         <ListGroup>
                             {this.state.articles.map((article, i) =>
                                 (
                                     <ListGroupItem key={i}>
                                         <ListGroupItemHeading>
-                                            {article.title} <Link to={"/article/" + article.id}>View</Link>
+                                            {article.title} 
+                                            <Link to={"/article/" + article.id}>View</Link>
+                                            <Link to={"/article/edit/" + article.id}>Edit</Link>
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>{article.body.slice(0, 25)}...</ListGroupItemText>
                                     </ListGroupItem>
