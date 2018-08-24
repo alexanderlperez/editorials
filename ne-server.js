@@ -3,8 +3,9 @@ const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const users = require('./dummy-users.json');
 const port = 3001;
+const users = require('./dummy-users.json');
+const articles = require('./dummy-articles.json');
 
 const app = express();
 app.use(cors())
@@ -13,6 +14,12 @@ app.use(bodyParser.json());
 
 app.get('/api/user', function (req, res, next) {
     res.json(users)
+    res.end();
+    next();
+})
+
+app.get('/api/article', function (req, res, next) {
+    res.json(articles)
     res.end();
     next();
 })
