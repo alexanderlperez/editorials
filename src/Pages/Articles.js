@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
+import { Link } from 'react-router-dom'
 
 import CONFIG from '../config.json';
 
@@ -38,7 +39,9 @@ class Articles extends Component {
                             {this.state.articles.map((article, i) =>
                                 (
                                     <ListGroupItem key={i}>
-                                        <ListGroupItemHeading>{article.title}</ListGroupItemHeading>
+                                        <ListGroupItemHeading>
+                                            {article.title} <Link to={"/article/" + article.id}>View</Link>
+                                        </ListGroupItemHeading>
                                         <ListGroupItemText>{article.body.slice(0, 25)}...</ListGroupItemText>
                                     </ListGroupItem>
                                 )

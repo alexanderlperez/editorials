@@ -1,0 +1,48 @@
+import React, { Component } from 'react';
+import CONFIG from '../config.json';
+
+class Article extends Component {
+    constructor(props) {
+        super(props);
+
+        console.log(props);
+
+        this.state = {
+            loading: true,
+            article: {}
+        }
+    }
+
+    componentDidMount() {
+        fetch(CONFIG.api + '/article/' + this.props.match.params.id)
+            .then(res => res.json())
+            .then(article => this.setState({ 
+                article,
+                loading: false,
+            }))
+    }
+
+    render() {
+        if (this.state.loading) {
+            return <h1>Loading...</h1>
+        }
+
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h1>{this.state.article.title}</h1>
+
+                        <p>
+                            {this.state.article.body}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Article;
+
+

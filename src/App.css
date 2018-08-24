@@ -5,4 +5,5 @@
 
 .pages {
     background: #ccc;
+    overflow: scroll;
 }
