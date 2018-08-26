@@ -14,7 +14,7 @@ class Article extends Component {
     }
 
     componentDidMount() {
-        fetch(CONFIG.api + '/article/' + this.props.match.params.id)
+        fetch(CONFIG.api + '/articles/' + this.props.match.params.id)
             .then(res => res.json())
             .then(article => this.setState({ 
                 article,

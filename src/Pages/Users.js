@@ -13,7 +13,7 @@ class Users extends Component {
 
     componentDidMount() {
         console.log(CONFIG.api);
-        fetch(CONFIG.api + '/user')
+        fetch(CONFIG.api + '/users')
             .then(res => res.json())
             .then(users => this.setState({ 
                 users,

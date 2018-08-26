@@ -10,6 +10,8 @@ import Edit from './Pages/Edit.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+const curAuthorId = 0; 
+
 class App extends Component {
     render() {
         return (
@@ -29,8 +31,8 @@ class App extends Component {
                                 <Switch>
                                     <Route exact path="/" component={Home} />
                                     <Route path="/users" component={Users} />
-                                    <Route exact path="/articles" component={Articles} />
-                                    <Route path="/article/edit/:id" component={Edit} />
+                                    <Route path="/articles" component={Articles} />
+                                    <Route path="/article/edit/:id" component={props => <Edit {...props} authorId={curAuthorId} />} />
                                     <Route path="/article/:id" component={Article} />
                                 </Switch>
                             </div>

@@ -1,4 +1,9 @@
-Noom Editorials
+# Noom Editorials
+
+## Requirements
+
+- sqlite3
+- node
 
 ---
 
