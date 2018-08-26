@@ -10,7 +10,7 @@ const port = 3001;
 const DB_FILE = './ne-editorials.db';
 
 const app = express();
-app.use(cors())
+app.use(cors({ methods: "GET,POST,PATCH,DELETE,COPY" }))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
@@ -45,7 +45,7 @@ app.get('/api/articles/:id', function (req, res, next) {
 
     db.get('select * from Articles where id = ?', id, function (err, rows) {
         if (err) {
-            console.error('Error saving data:', err);
+            console.error('Error accessing data:', err);
             next();
         }
 
@@ -97,6 +97,31 @@ app.delete('/api/articles/:id', function (req, res, next) {
 
         res.end();
     });
+})
+
+app.copy('/api/articles/:id', function (req, res, next) {
+    const id = req.params.id
+    const authorId = req.body.authorId;
+    const date = new Date().toISOString();
+
+    db.get('select * from Articles where id = ?', id, function (err, rows) {
+        if (err) {
+            console.error('Error accessing data:', err);
+            next();
+        }
+
+        const { title, body } = rows;
+
+        db.run(`insert into Articles (created, authorId, title, body) values(?,?,?,?)`, date, authorId, title, body, function (err) {
+            if (err) {
+                console.error('Error saving data:', err);
+                next();
+            }
+
+            res.json({ id: this.lastID });
+            res.end();
+        });
+    })
 })
 
 app.listen(port, function () {

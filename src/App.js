@@ -31,7 +31,7 @@ class App extends Component {
                                 <Switch>
                                     <Route exact path="/" component={Home} />
                                     <Route path="/users" component={Users} />
-                                    <Route path="/articles" component={Articles} />
+                                    <Route path="/articles" component={props => <Articles {...props} authorId={curAuthorId} />} />
                                     <Route path="/article/edit/:id" component={props => <Edit {...props} authorId={curAuthorId} />} />
                                     <Route path="/article/:id" component={Article} />
                                 </Switch>

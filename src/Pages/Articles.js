@@ -14,6 +14,7 @@ class Articles extends Component {
         }
 
         this.deleteArticle = this.deleteArticle.bind(this);
+        this.duplicateArticle = this.duplicateArticle.bind(this);
     }
 
     componentDidMount() {
@@ -25,19 +26,40 @@ class Articles extends Component {
             }))
     }
 
-    deleteArticle(id) {
-        return () => {
-            var self = this; 
-            fetch(CONFIG.api + '/articles/' + id, { method: 'DELETE' })
-                .then(() => {
-                    // mystery why 'self' is needed here in spite of fat-arrow syntax 
-                    const idx = self.state.articles.findIndex(article => article.id === id)
-                    const articles = self.state.articles.slice(); 
+    deleteArticle(e, id) {
+        e.preventDefault();
 
-                    articles.splice(idx, 1)
-                    self.setState({articles})
-                })
-        }
+        // Surprise encounter:
+        // mystery why 'self' is needed here in spite of fat-arrow syntax in fetch/Promise callback
+        // ie. since 'this' is still the class instance reference, shouldn't the callback retain that...
+        var self = this; 
+
+        fetch(CONFIG.api + '/articles/' + id, { method: 'DELETE' })
+            .then(() => {
+                const idx = self.state.articles.findIndex(article => article.id === id)
+                const articles = self.state.articles.slice(); 
+
+                articles.splice(idx, 1)
+                self.setState({articles})
+            })
+    }
+
+    duplicateArticle(e, id) {
+        e.preventDefault();
+
+        // Surprise encounter:
+        // mystery why 'self' is needed here in spite of fat-arrow syntax in fetch/Promise callback
+        // ie. since 'this' is still the class instance reference, shouldn't the callback retain that...
+        var self = this; 
+
+        fetch(CONFIG.api + '/articles/' + id, { method: 'COPY', body: { authorId: this.props.curAuthorId } })
+            .then(() => {
+                const articles = self.state.articles.slice();
+                const idx = articles.findIndex(article => article.id === id)
+
+                articles.push(articles[idx])
+                self.setState({articles})
+            })
     }
 
     render() {
@@ -58,7 +80,8 @@ class Articles extends Component {
                                         {article.title} 
                                         <Link to={"/article/" + article.id}>View</Link>
                                         <Link to={"/article/edit/" + article.id}>Edit</Link>
-                                        <Button color="link" onClick={this.deleteArticle(article.id)}>Delete</Button>
+                                        <a href="" onClick={(e) => this.deleteArticle(e, article.id)}>Delete</a>
+                                        <a href="" onClick={(e) => this.duplicateArticle(e, article.id)}>Duplicate</a>
                                     </ListGroupItemHeading>
                                     <ListGroupItemText>{article.body.slice(0, 25)}...</ListGroupItemText>
                                 </ListGroupItem>
