@@ -11,8 +11,13 @@ class Edit extends Component {
 
         this.state = {
             isNew,
+            id: props.match.params.id,
             loading: isNew ? false : true, // isNew, no need to be "Loading..."
-            article: { authorId: this.props.authorId, title: '', body: '' }
+            article: { 
+                authorId: this.props.authorId, 
+                title: '', 
+                body: '' 
+            }
         }
 
         this.handleSave = this.handleSave.bind(this);
@@ -49,11 +54,17 @@ class Edit extends Component {
             body: JSON.stringify(this.state.article),
         })
             .then(res => res.json())
-            .then(res => this.props.history.push(this.props.location.pathname.replace('new', res.id))) 
+            .then(res => {
+                this.props.history.replace(this.props.location.pathname.replace('new', res.id))
+                this.setState({ 
+                    isNew: false,
+                    id: res.id
+                })
+            }) 
     }
 
     updateArticle() {
-        fetch(CONFIG.api + '/articles', { 
+        fetch(CONFIG.api + '/articles/' + this.state.id, { 
             method: 'PATCH', 
             cache: 'no-cache',
             headers: { "Content-Type": "application/json" },
@@ -81,7 +92,7 @@ class Edit extends Component {
                 <div className="row">
                     <div className="col-8">
                         <div className="row">
-                            <h1>Edit Article&nbsp; </h1>
+                            <h1>{this.state.isNew ? 'Create' : 'Edit'} Article&nbsp; </h1>
                             <Button onClick={this.handleSave}>Save</Button>
                         </div>
 
@@ -97,6 +108,4 @@ class Edit extends Component {
     }
 }
 
-export default withRouter(Edit);
-
-
+export default withRouter(Edit); // HOC for access to the 'history' prop

@@ -1,4 +1,4 @@
-create table users (
+create table Users (
 	id INT,
 	editor INT,
 	first_name VARCHAR(50),

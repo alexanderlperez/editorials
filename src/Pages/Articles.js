@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
 import { Link } from 'react-router-dom'
+import Share from '../Components/Share';
 
 import CONFIG from '../config.json';
 
@@ -52,7 +53,7 @@ class Articles extends Component {
         // ie. since 'this' is still the class instance reference, shouldn't the callback retain that...
         var self = this; 
 
-        fetch(CONFIG.api + '/articles/' + id, { method: 'COPY', body: { authorId: this.props.curAuthorId } })
+        fetch(CONFIG.api + '/articles/' + id, { method: 'COPY', body: { authorId: this.props.authorId } })
             .then(() => {
                 const articles = self.state.articles.slice();
                 const idx = articles.findIndex(article => article.id === id)
@@ -68,22 +69,24 @@ class Articles extends Component {
         }
 
         return (
-            <div className="container">
+            <div className="Articles container">
                 <h1>Articles</h1> 
                 <div className="row">
                     <div className="col">
-                        <Link to="/article/edit/new">Create New Article</Link>
+                        <Link to="/article/edit/new" className="btn btn-primary">Create New Article</Link>
+
                         <ListGroup>
                             {this.state.articles.map((article, i) => (
                                 <ListGroupItem key={i}>
                                     <ListGroupItemHeading>
                                         {article.title} 
-                                        <Link to={"/article/" + article.id}>View</Link>
+                                        <Link to={"/article/view/" + article.id}>View</Link>
                                         <Link to={"/article/edit/" + article.id}>Edit</Link>
                                         <a href="" onClick={(e) => this.deleteArticle(e, article.id)}>Delete</a>
                                         <a href="" onClick={(e) => this.duplicateArticle(e, article.id)}>Duplicate</a>
+                                        <Share articleId={article.id} authorId={this.props.authorId} />
                                     </ListGroupItemHeading>
-                                    <ListGroupItemText>{article.body.slice(0, 25)}...</ListGroupItemText>
+                                    <ListGroupItemText>{article.body.slice(0, 80)}...</ListGroupItemText>
                                 </ListGroupItem>
                             ))}
                         </ListGroup>

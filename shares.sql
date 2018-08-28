@@ -4,5 +4,6 @@ create table Shares (
 	accessed DATE,
 	authorId INT,
 	userId INT,
-    articleId INT
+    articleId INT,
+    uuid STRING
 );

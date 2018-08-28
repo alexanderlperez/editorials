@@ -1,10 +1,11 @@
-const async = require('async');
+const Async = require('async');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const nodemailer = require('nodemailer');
+const uuidv4 = require('uuid/v4'); 
 
 const CONFIG = require('./config.json');
 const port = CONFIG.port;
@@ -127,6 +128,32 @@ app.copy('/api/articles/:id', function (req, res, next) {
     })
 })
 
+app.get('/api/shares/:id', function (req, res, next) {
+    const query = `
+        select  
+            Shares.uuid,
+            Shares.created,
+            Shares.accessed,
+            Users.first_name,
+            Users.last_name,
+            Articles.title
+        from Shares 
+        left join Users on Users.id = Shares.userId
+        left join Articles on Articles.id = Shares.articleId
+        where Shares.authorId=?
+        `;
+
+    db.all(query, req.params.id, function (err, shares) {
+        if (err) {
+            console.error('Error:', err);
+            res.status(500).end();
+        }
+
+        res.json(shares)
+        res.end();
+    })
+})
+
 app.post('/api/shares', function (req, res, next) {
     const { authorId, userId, articleId } = req.body;
     const created = new Date().toISOString();
@@ -135,7 +162,7 @@ app.post('/api/shares', function (req, res, next) {
     // 2. send an email to the user with the article
     // 3. create a Share record in the database
 
-    async.series([
+    Async.series([
         function (cb) {
             db.get('select * from Articles where id = ?', articleId, function (err, article) {
                 if (err) {
@@ -170,6 +197,7 @@ app.post('/api/shares', function (req, res, next) {
         }
 
         const [article, author, user] = data;
+        const uuid = uuidv4();
 
         const transport = nodemailer.createTransport({
             secure: true,
@@ -181,18 +209,15 @@ app.post('/api/shares', function (req, res, next) {
             }
         })
 
-
         const mailOptions = {
             from: author.email,
             to: user.email,
             subject: "We think you'll find this useful...",
             html: 
             `
-            <h1>${article.title}</h1>
-            <p>${article.body}</p>
-            <img src="">
+            ${author.first_name} at Noom thinks you'll find this useful:
+            <a href="${CONFIG.host}/api/trackers/${uuid}">${article.title}</a>
             `
-            // TODO: pixel
         }
 
         transport.sendMail(mailOptions, function (err, info) {
@@ -201,7 +226,7 @@ app.post('/api/shares', function (req, res, next) {
                 res.status(500).end();
             }
 
-            db.run('insert into Shares (created, userId, authorId, articleId) values (?,?,?,?)', created, userId, authorId, articleId, function (err) {
+            db.run('insert into Shares (created, userId, authorId, articleId, uuid) values (?,?,?,?,?)', created, userId, authorId, articleId, uuid, function (err) {
                 if (err) {
                     console.error('Error:', err);
                     res.status(500).end();
@@ -211,6 +236,29 @@ app.post('/api/shares', function (req, res, next) {
                 res.end();
             });
         })
+    })
+})
+
+app.get('/api/trackers/:uuid', function (req, res, next) {
+    const accessed = new Date().toISOString();
+    const uuid = req.params.uuid;
+
+    db.run('update Shares set accessed=? where uuid=?', accessed, uuid);
+
+    const articleQuery = `
+        select Articles.id, Shares.articleId from Articles 
+        left join Shares on Shares.articleId = Articles.id
+        where Shares.uuid=?
+        `; 
+
+    db.get(articleQuery, uuid, function (err, article) {
+        if (err) {
+            console.error('Error:', err);
+            res.status(500).end();
+        }
+
+        res.redirect(CONFIG.clientUrl + "/article/" + article.id)
+        res.end();
     })
 })
 

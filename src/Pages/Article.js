@@ -28,12 +28,12 @@ class Article extends Component {
         }
 
         return (
-            <div className="container">
+            <div className="Article container">
                 <div className="row">
                     <div className="col">
-                        <h1>{this.state.article.title}</h1>
+                        <h1 className="title">{this.state.article.title}</h1>
 
-                        <p>
+                        <p className="body">
                             {this.state.article.body}
                         </p>
                     </div>

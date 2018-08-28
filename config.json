@@ -1,6 +1,8 @@
 {
+    "clientUrl": "http://localhost:3000",
+    "host": "http://localhost:3001",
     "port": 3001,
-    "dbFile": "./dummy-users.json",
+    "dbFile": "./ne-editorials.db",
     "smtp": {
         "host": "smtp.gmail.com",
         "port": 465,

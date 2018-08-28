@@ -1,43 +1,22 @@
 import React, { Component } from 'react';
-import { Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { withRouter, Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-import Home from './Pages/Home.js';
-import Users from './Pages/Users.js';
-import Articles from './Pages/Articles.js';
+import Dashboard from './Containers/Dashboard.js';
 import Article from './Pages/Article.js';
-import Edit from './Pages/Edit.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-const curAuthorId = 0; 
+// placeholder, in the case that multi-user login is added this will be controlled by actual account service
+const curEditorId = 0; 
 
 class App extends Component {
     render() {
         return (
             <Router>
                 <div className="App">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="nav col-3">
-                                <ul>
-                                    <li><Link to="/">Home</Link></li>
-                                    <li><Link to="/users">Users</Link></li>
-                                    <li><Link to="/articles">Articles</Link></li>
-                                </ul>
-                            </div>
-
-                            <div className="pages col-9">
-                                <Switch>
-                                    <Route exact path="/" component={Home} />
-                                    <Route path="/users" component={Users} />
-                                    <Route path="/articles" component={props => <Articles {...props} authorId={curAuthorId} />} />
-                                    <Route path="/article/edit/:id" component={props => <Edit {...props} authorId={curAuthorId} />} />
-                                    <Route path="/article/:id" component={Article} />
-                                </Switch>
-                            </div>
-                        </div>
-                    </div>
+                    <Route path="/public/:id" component={Article} />
+                    <Dashboard authorId={curEditorId} />
                 </div>
             </Router>
         );

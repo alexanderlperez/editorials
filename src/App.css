@@ -1,11 +1,30 @@
-.nav,
-.pages {
+.Nav,
+.Pages {
     height: 100vh;
 }
 
-.pages {
+.Nav ul {
+    padding-left: 0;
+}
+ 
+.Nav li {
+    list-style: none;
+    display: block;
+    height: 2.5em;
+    line-height: 2.5em;
+}
+
+.Pages {
     background: #ccc;
     overflow: scroll;
+}
+
+.Article .body {
+    white-space: pre-wrap;
+}
+
+.Articles .list-group-item-heading * {
+    padding-left: .5em;
 }
 
 .Edit textarea,
@@ -15,4 +34,17 @@
 
 .Edit textarea {
     height: 20em;
+}
+
+.Shares span {
+    margin-right: 1.5em;
+}
+
+.Shares .badge {
+    min-width: 5em;
+}
+
+.Shares .date {
+    display: inline-block;
+    min-width: 12em;
 }

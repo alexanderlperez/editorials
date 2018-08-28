@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import CONFIG from '../config.json';
 
 class Users extends Component {
@@ -12,7 +13,6 @@ class Users extends Component {
     }
 
     componentDidMount() {
-        console.log(CONFIG.api);
         fetch(CONFIG.api + '/users')
             .then(res => res.json())
             .then(users => this.setState({ 
@@ -31,9 +31,11 @@ class Users extends Component {
                 <div className="row">
                     <div className="col">
                         <h1>Users</h1>
-                        <ul>
-                            {this.state.users.map((user, i) => <li key={i}>{`${user.first_name} ${user.last_name}`}</li>)}
-                        </ul>
+                        <ListGroup>
+                            {this.state.users.map((user, i) => 
+                                <ListGroupItem key={i}>{`${user.first_name} ${user.last_name}`}</ListGroupItem>
+                            )}
+                        </ListGroup>
                     </div>
                 </div>
             </div>
