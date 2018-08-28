@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { withRouter, Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import Dashboard from './Containers/Dashboard.js';
-import Article from './Pages/Article.js';
+import PublicArticle from './Pages/PublicArticle.js';
+import Page404 from './Pages/Page404.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -11,12 +12,25 @@ import './App.css';
 const curEditorId = 0; 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.ToggleDashboard = withRouter(({location}) => {
+            if (location.pathname.includes('public') || location.pathname.includes('404')) {
+                return null;
+            }
+
+            return <Dashboard authorId={curEditorId} />
+        });
+    }
+
     render() {
         return (
             <Router>
                 <div className="App">
-                    <Route path="/public/:id" component={Article} />
-                    <Dashboard authorId={curEditorId} />
+                    <Route path="/404" component={Page404} />
+                    <Route path="/public/:id" component={PublicArticle} />
+                    <this.ToggleDashboard />
                 </div>
             </Router>
         );

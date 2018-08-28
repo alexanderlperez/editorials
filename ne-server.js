@@ -131,32 +131,6 @@ app.copy('/api/articles/:id', function (req, res, next) {
     })
 })
 
-app.get('/api/shares/:id', function (req, res, next) {
-    const query = `
-        select  
-            Shares.uuid,
-            Shares.created,
-            Shares.accessed,
-            Users.first_name,
-            Users.last_name,
-            Articles.title
-        from Shares 
-        left join Users on Users.id = Shares.userId
-        left join Articles on Articles.id = Shares.articleId
-        where Shares.authorId=?
-        `;
-
-    db.all(query, req.params.id, function (err, shares) {
-        if (err) {
-            console.error('Error:', err);
-            res.status(500).end();
-        }
-
-        res.json(shares)
-        res.end();
-    })
-})
-
 app.post('/api/shares', function (req, res, next) {
     const { authorId, userId, articleId } = req.body;
     const created = new Date().toISOString();
@@ -229,16 +203,84 @@ app.post('/api/shares', function (req, res, next) {
                 res.status(500).end();
             }
 
-            db.run('insert into Shares (created, userId, authorId, articleId, uuid) values (?,?,?,?,?)', created, userId, authorId, articleId, uuid, function (err) {
-                if (err) {
-                    console.error('Error:', err);
-                    res.status(500).end();
-                }
+            db.run(
+                'insert into Shares (created, userId, authorId, articleId, uuid) values (?,?,?,?,?)', 
+                created, 
+                userId, 
+                authorId, 
+                articleId, 
+                uuid, 
+                function (err) {
+                    if (err) {
+                        console.error('Error:', err);
+                        res.status(500).end();
+                    }
 
-                res.json({ id: this.lastID });
-                res.end();
-            });
+                    res.json({ id: this.lastID });
+                    res.end();
+                }
+            );
         })
+    })
+})
+
+app.get('/api/users/:id/shares', function (req, res, next) {
+    //NOTE: this endpoint returns shares essentially from Editors only, since it queries by 
+    //the authorId, which is set from and editor id in all frontend actions
+
+    const query = `
+        select  
+            Shares.uuid,
+            Shares.created,
+            Shares.accessed,
+            Shares.articleId,
+            Shares.userId,
+            Users.id as userId,
+            Users.first_name,
+            Users.last_name,
+            Articles.title
+        from Shares 
+        left join Users on Users.id = Shares.userId
+        left join Articles on Articles.id = Shares.articleId
+        where Shares.authorId=?
+        `;
+
+    db.all(query, req.params.id, function (err, shares) {
+        if (err) {
+            console.error('Error:', err);
+            res.status(500).end();
+        }
+
+        res.json(shares)
+        res.end();
+    })
+})
+
+app.get('/api/articles/:id/shares', function (req, res, next) {
+    const query = `
+        select  
+            Shares.uuid,
+            Shares.created,
+            Shares.accessed,
+            Shares.articleId,
+            Shares.userId,
+            Users.first_name,
+            Users.last_name,
+            Articles.title
+        from Shares 
+        left join Users on Users.id = Shares.userId
+        left join Articles on Articles.id = Shares.articleId
+        where Articles.id=?
+        `;
+
+    db.all(query, req.params.id, function (err, shares) {
+        if (err) {
+            console.error('Error:', err);
+            res.status(500).end();
+        }
+
+        res.json(shares)
+        res.end();
     })
 })
 
@@ -258,6 +300,13 @@ app.get('/api/trackers/:uuid', function (req, res, next) {
         if (err) {
             console.error('Error:', err);
             res.status(500).end();
+            return;
+        }
+
+        if (!article) {
+            res.redirect(CONFIG.clientUrl + "/404/")
+            res.end();
+            return;
         }
 
         res.redirect(CONFIG.clientUrl + "/article/" + article.id)

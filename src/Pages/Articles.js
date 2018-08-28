@@ -20,6 +20,7 @@ class Articles extends Component {
 
     componentDidMount() {
         fetch(CONFIG.api + '/articles')
+            .catch(error => console.error(error))
             .then(res => res.json())
             .then(articles => this.setState({ 
                 articles,
@@ -36,6 +37,7 @@ class Articles extends Component {
         var self = this; 
 
         fetch(CONFIG.api + '/articles/' + id, { method: 'DELETE' })
+            .catch(error => console.error(error))
             .then(() => {
                 const idx = self.state.articles.findIndex(article => article.id === id)
                 const articles = self.state.articles.slice(); 
@@ -54,6 +56,7 @@ class Articles extends Component {
         var self = this; 
 
         fetch(CONFIG.api + '/articles/' + id, { method: 'COPY', body: { authorId: this.props.authorId } })
+            .catch(error => console.error(error))
             .then(() => {
                 const articles = self.state.articles.slice();
                 const idx = articles.findIndex(article => article.id === id)

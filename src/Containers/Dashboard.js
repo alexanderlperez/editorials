@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import Home from '../Pages/Home.js';
 import Users from '../Pages/Users.js';
@@ -8,10 +8,6 @@ import Article from '../Pages/Article.js';
 import Edit from '../Pages/Edit.js';
 
 function Dashboard({location, authorId}) {
-    if (location.pathname.includes('public')) {
-        return null;
-    }
-
     return (
         <div className="Dashboard container-fluid">
             <div className="row">
@@ -37,4 +33,4 @@ function Dashboard({location, authorId}) {
     )
 }
 
-export default withRouter(Dashboard);
+export default Dashboard;

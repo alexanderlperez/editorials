@@ -14,6 +14,7 @@ class Users extends Component {
 
     componentDidMount() {
         fetch(CONFIG.api + '/users')
+            .catch(error => console.error(error))
             .then(res => res.json())
             .then(users => this.setState({ 
                 users,

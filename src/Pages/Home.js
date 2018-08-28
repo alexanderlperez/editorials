@@ -13,7 +13,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        fetch(CONFIG.api + "/shares/" + this.props.authorId)
+        fetch(CONFIG.api + "/users/" + this.props.authorId + "/shares")
+            .catch(error => console.error(error))
             .then(res => res.json())
             .then(shares => this.setState({
                 loading: false,

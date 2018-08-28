@@ -33,6 +33,7 @@ class Edit extends Component {
         }
 
         fetch(CONFIG.api + '/articles/' + this.props.match.params.id)
+            .catch(error => console.error(error))
             .then(res => res.json())
             .then(article => this.setState({ 
                 article,
@@ -55,6 +56,7 @@ class Edit extends Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state.article),
         })
+            .catch(error => console.error(error))
             .then(res => res.json())
             .then(res => {
                 this.props.history.replace(this.props.location.pathname.replace('new', res.id))
@@ -72,8 +74,9 @@ class Edit extends Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state.article),
         })
+            .catch(error => console.error(error))
             .then(res => res.json())
-            .then(({updated}) => this.setState({updated: 'Saved ' + updated}))
+            .then(({updated}) => this.setState({updated: 'Saved ' + new Date(updated).toLocaleString()}))
     }
 
     updateField(e) {
