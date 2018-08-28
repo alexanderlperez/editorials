@@ -86,6 +86,9 @@ app.patch('/api/articles/:id', function (req, res, next) {
             res.status(500).end();
         }
 
+        const date = new Date().toISOString();
+
+        res.send({updated: date})
         res.end();
     });
 })

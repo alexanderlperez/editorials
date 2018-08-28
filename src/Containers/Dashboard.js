@@ -13,7 +13,7 @@ function Dashboard({location, authorId}) {
     }
 
     return (
-        <div className="Dashboard container-flex">
+        <div className="Dashboard container-fluid">
             <div className="row">
                 <div className="Nav col-3">
                     <ul>

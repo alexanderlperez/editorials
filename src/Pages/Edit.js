@@ -13,6 +13,7 @@ class Edit extends Component {
             isNew,
             id: props.match.params.id,
             loading: isNew ? false : true, // isNew, no need to be "Loading..."
+            updated: '',
             article: { 
                 authorId: this.props.authorId, 
                 title: '', 
@@ -22,6 +23,7 @@ class Edit extends Component {
 
         this.handleSave = this.handleSave.bind(this);
         this.updateField = this.updateField.bind(this);
+        this.updateArticle = this.updateArticle.bind(this);
     }
 
     componentDidMount() {
@@ -58,7 +60,7 @@ class Edit extends Component {
                 this.props.history.replace(this.props.location.pathname.replace('new', res.id))
                 this.setState({ 
                     isNew: false,
-                    id: res.id
+                    id: res.id,
                 })
             }) 
     }
@@ -70,6 +72,8 @@ class Edit extends Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state.article),
         })
+            .then(res => res.json())
+            .then(({updated}) => this.setState({updated: 'Saved ' + updated}))
     }
 
     updateField(e) {
@@ -94,6 +98,7 @@ class Edit extends Component {
                         <div className="row">
                             <h1>{this.state.isNew ? 'Create' : 'Edit'} Article&nbsp; </h1>
                             <Button onClick={this.handleSave}>Save</Button>
+                            <span>{this.state.updated}</span>
                         </div>
 
                         <div className="row">

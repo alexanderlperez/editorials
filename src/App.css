@@ -4,7 +4,7 @@
 }
 
 .Nav ul {
-    /*padding-left: 0;*/
+    padding-left: 0;
 }
  
 .Nav li {
@@ -16,7 +16,7 @@
 
 .Pages {
     background: #ccc;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .Article .body {
