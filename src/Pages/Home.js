@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
+import SharesList from '../Components/SharesList.js';
+
 import CONFIG from '../config.json';
 
 class Home extends Component {
@@ -35,21 +37,7 @@ class Home extends Component {
 
                         <div className="Shares">
                             <h2>Shares</h2>
-
-                            <ListGroup>
-                                {this.state.shares.map((share, i) => (
-                                    <ListGroupItem key={i}>
-                                        <span className="date">{new Date(share.created).toLocaleString()}</span>
-                                        <span>
-                                            {share.accessed 
-                                                    ? <Badge pill color="success">&#x2714; Read</Badge>
-                                                    : <Badge pill color="secondary">Pending</Badge>}
-                                        </span>
-                                        <span>{share.first_name + " " + share.last_name}</span>
-                                        <span>{share.title}</span>
-                                    </ListGroupItem>
-                                ))}
-                            </ListGroup>
+                            <SharesList shares={this.state.shares} />
                         </div>
                     </div>
                 </div>

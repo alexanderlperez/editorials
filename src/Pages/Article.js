@@ -5,8 +5,6 @@ class Article extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
-
         this.state = {
             loading: true,
             article: {}

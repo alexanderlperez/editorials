@@ -12,7 +12,7 @@ const port = CONFIG.port;
 const DB_FILE = CONFIG.dbFile;
 
 const app = express();
-app.use(cors({ methods: "GET,POST,PATCH,DELETE,COPY" }))
+app.use(cors({methods: "GET,POST,PATCH,DELETE,COPY"}))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
@@ -27,6 +27,7 @@ app.get('/api/users', function (req, res, next) {
         if (err) {
             console.error('Error:', err);
             res.status(500).end();
+            return;
         }
 
         res.json(users)
@@ -39,6 +40,7 @@ app.get('/api/articles', function (req, res, next) {
         if (err) {
             console.error('There was a problem w/ DB:', err);
             res.status(500).end();
+            return;
         }
 
         res.json(rows)
@@ -53,6 +55,7 @@ app.get('/api/articles/:id', function (req, res, next) {
         if (err) {
             console.error('Error accessing data:', err);
             res.status(500).end();
+            return;
         }
 
         res.json(rows)
@@ -68,9 +71,10 @@ app.post('/api/articles', function (req, res, next) {
         if (err) {
             console.error('Error saving data:', err);
             res.status(500).end();
+            return;
         }
 
-        res.json({ id: this.lastID });
+        res.json({ id: this.lastID, created: date });
         res.end();
     });
 })
@@ -84,6 +88,7 @@ app.patch('/api/articles/:id', function (req, res, next) {
         if (err) {
             console.error('Error updating data:', err);
             res.status(500).end();
+            return;
         }
 
         const date = new Date().toISOString();
@@ -100,6 +105,7 @@ app.delete('/api/articles/:id', function (req, res, next) {
         if (err) {
             console.error('Error deleting data:', err);
             res.status(500).end();
+            return;
         }
 
         res.end();
@@ -115,6 +121,7 @@ app.copy('/api/articles/:id', function (req, res, next) {
         if (err) {
             console.error('Error accessing data:', err);
             res.status(500).end();
+            return;
         }
 
         const { title, body } = rows;
@@ -123,6 +130,7 @@ app.copy('/api/articles/:id', function (req, res, next) {
             if (err) {
                 console.error('Error saving data:', err);
                 res.status(500).end();
+                return;
             }
 
             res.json({ id: this.lastID });
@@ -171,6 +179,7 @@ app.post('/api/shares', function (req, res, next) {
         if (err) {
             console.error('Error:', err);
             res.status(500).end();
+            return;
         }
 
         const [article, author, user] = data;
@@ -201,6 +210,7 @@ app.post('/api/shares', function (req, res, next) {
             if (err) {
                 console.error('Error:', err);
                 res.status(500).end();
+                return;
             }
 
             db.run(
@@ -214,6 +224,7 @@ app.post('/api/shares', function (req, res, next) {
                     if (err) {
                         console.error('Error:', err);
                         res.status(500).end();
+                        return;
                     }
 
                     res.json({ id: this.lastID });
@@ -249,6 +260,7 @@ app.get('/api/users/:id/shares', function (req, res, next) {
         if (err) {
             console.error('Error:', err);
             res.status(500).end();
+            return;
         }
 
         res.json(shares)
@@ -277,6 +289,7 @@ app.get('/api/articles/:id/shares', function (req, res, next) {
         if (err) {
             console.error('Error:', err);
             res.status(500).end();
+            return;
         }
 
         res.json(shares)

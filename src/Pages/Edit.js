@@ -60,10 +60,6 @@ class Edit extends Component {
             .then(res => res.json())
             .then(res => {
                 this.props.history.replace(this.props.location.pathname.replace('new', res.id))
-                this.setState({ 
-                    isNew: false,
-                    id: res.id,
-                })
             }) 
     }
 
@@ -76,7 +72,9 @@ class Edit extends Component {
         })
             .catch(error => console.error(error))
             .then(res => res.json())
-            .then(({updated}) => this.setState({updated: 'Saved ' + new Date(updated).toLocaleString()}))
+            .then(({updated}) => this.setState({
+                updated: 'Saved ' + new Date(updated).toLocaleString()
+            }))
     }
 
     updateField(e) {

@@ -25,7 +25,7 @@ function Dashboard({location, authorId}) {
                         <Route path="/users" component={Users} />
                         <Route path="/articles" component={props => <Articles {...props} authorId={authorId} />} />
                         <Route path="/article/edit/:id" component={props => <Edit {...props} authorId={authorId} />} />
-                        <Route path="/article/:id" component={Article} />
+                        <Route path="/article/view/:id" component={Article} />
                     </Switch>
                 </div>
             </div>
