@@ -7,25 +7,31 @@ import Articles from '../Pages/Articles.js';
 import Article from '../Pages/Article.js';
 import Edit from '../Pages/Edit.js';
 
-function Dashboard({authorId}) {
+function Dashboard({location, authorId}) {
+    if (location.pathname.includes('public')) {
+        return null;
+    }
+
     return (
-        <div class="Dashboard container-flex">
-            <div className="nav col-3">
-                <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/users">Users</Link></li>
-                    <li><Link to="/articles">Articles</Link></li>
-                </ul>
-            </div>
-            
-            <div className="pages col-9">
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/users" component={Users} />
-                    <Route path="/articles" component={props => <Articles {...props} authorId={authorId} />} />
-                    <Route path="/article/edit/:id" component={props => <Edit {...props} authorId={authorId} />} />
-                    <Route path="/article/:id" component={Article} />
-                </Switch>
+        <div className="Dashboard container-flex">
+            <div className="row">
+                <div className="Nav col-3">
+                    <ul>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/users">Users</Link></li>
+                        <li><Link to="/articles">Articles</Link></li>
+                    </ul>
+                </div>
+                
+                <div className="Pages col-9">
+                    <Switch>
+                        <Route exact path="/" component={props => <Home {...props} authorId={authorId} />} />
+                        <Route path="/users" component={Users} />
+                        <Route path="/articles" component={props => <Articles {...props} authorId={authorId} />} />
+                        <Route path="/article/edit/:id" component={props => <Edit {...props} authorId={authorId} />} />
+                        <Route path="/article/:id" component={Article} />
+                    </Switch>
+                </div>
             </div>
         </div>
     )
