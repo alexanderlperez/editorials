@@ -38,6 +38,8 @@ Configure src/config.json:
 }
 ```
 
+NOTE: ne-editorials.db and the seed files (under *.sql) are included in this repo.
+
 Running the app:
 
 ```
@@ -51,6 +53,15 @@ npm start
 ```
 
 ## Notes
+
+### Credits and Attributions
+
+- email submission code courtesy of nodemailer.com 
+- sqlite3 module docs at https://github.com/mapbox/node-sqlite3/wiki
+- keeping whitespace in text area: https://stackoverflow.com/a/30593806/1817379
+- Reactstrap snippets from: https://reactstrap.github.io/
+- pushing to github pages: https://github.com/gitname/react-gh-pages
+- https with express: https://contextneutral.com/story/creating-an-https-server-with-nodejs-and-express
 
 ### Reason for library choices:
 

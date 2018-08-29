@@ -6,6 +6,12 @@ const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const nodemailer = require('nodemailer');
 const uuidv4 = require('uuid/v4'); 
+const fs = require('fs');
+const https = require('https');
+
+const key = fs.readFileSync('./private.key')
+const cert = fs.readFileSync('./mydomain.crt')
+const sslOptions = {key, cert};
 
 const CONFIG = require('./config.json');
 const port = CONFIG.port;
@@ -327,6 +333,11 @@ app.get('/api/trackers/:uuid', function (req, res, next) {
     })
 })
 
-app.listen(port, function () {
-    console.log('listening on port', port);
-})
+
+if (CONFIG.https){
+    https.createServer(sslOptions, app).listen(443);
+} else {
+    app.listen(port, function () {
+        console.log('listening on port', port);
+    })
+}

@@ -1,3 +1,4 @@
 {
-    "api": "http://localhost:3001/api"
+    "api": "https://undeniable.pro:3443/api",
+    "prefix": "/editorials"
 }

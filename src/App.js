@@ -5,6 +5,8 @@ import Dashboard from './Containers/Dashboard.js';
 import PublicArticle from './Pages/PublicArticle.js';
 import Page404 from './Pages/Page404.js';
 
+import CONFIG from './config.json';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -28,8 +30,8 @@ class App extends Component {
         return (
             <Router>
                 <div className="App">
-                    <Route path="/404" component={Page404} />
-                    <Route path="/public/:id" component={PublicArticle} />
+                    <Route path={CONFIG.prefix + "/404"} component={Page404} />
+                    <Route path={CONFIG.prefix + "/public/:id"} component={PublicArticle} />
                     <this.ToggleDashboard />
                 </div>
             </Router>

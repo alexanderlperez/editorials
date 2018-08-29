@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import Share from '../Components/Share';
+import CONFIG from '../config.json';
 
 class ArticleListing extends Component {
     constructor(props) {
@@ -15,8 +16,8 @@ class ArticleListing extends Component {
             <ListGroupItem>
                 <ListGroupItemHeading>
                     {this.props.article.title} 
-                    <Link to={"/article/view/" + article.id}>View</Link>
-                    <Link to={"/article/edit/" + article.id}>Edit</Link>
+                    <Link to={CONFIG.prefix + "/article/view/" + article.id}>View</Link>
+                    <Link to={CONFIG.prefix + "/article/edit/" + article.id}>Edit</Link>
 
                     <a href="" onClick={(e) => deleteHandler(e, article.id)}>Delete</a>
                     <a href="" onClick={(e) => duplicateHandler(e, article.id)}>Duplicate</a>

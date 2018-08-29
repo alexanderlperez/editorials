@@ -76,7 +76,7 @@ class Articles extends Component {
                 <h1>Articles</h1> 
                 <div className="row">
                     <div className="col">
-                        <Link to="/article/edit/new" className="btn btn-primary">Create New Article</Link>
+                        <Link to={CONFIG.prefix + "/article/edit/new"} className="btn btn-primary">Create New Article</Link>
 
                         <ListGroup className="ArticlesList">
                             {this.state.articles.map((article, i) => (
