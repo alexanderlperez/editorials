@@ -4,11 +4,7 @@ import { withRouter, BrowserRouter as Router, Route } from 'react-router-dom'
 import Dashboard from './Containers/Dashboard.js';
 import PublicArticle from './Pages/PublicArticle.js';
 import Page404 from './Pages/Page404.js';
-
 import CONFIG from './config.json';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 
 // placeholder, in the case that multi-user login is added this will be controlled by actual account service
 const curEditorId = 0; 

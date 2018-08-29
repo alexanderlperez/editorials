@@ -9,17 +9,13 @@ const uuidv4 = require('uuid/v4');
 const fs = require('fs');
 const https = require('https');
 
-const key = fs.readFileSync('./private.key')
-const cert = fs.readFileSync('./mydomain.crt')
-const sslOptions = {key, cert};
-
 const CONFIG = require('./config.json');
-const port = CONFIG.port;
+const PORT = CONFIG.port;
 const DB_FILE = CONFIG.dbFile;
 
 const app = express();
 app.use(cors({methods: "GET,POST,PATCH,DELETE,COPY"}))
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true})); // support nested, urlencoded objects in requests
 app.use(bodyParser.json());
 
 const db = new sqlite3.Database(DB_FILE, (err) => {
@@ -335,9 +331,16 @@ app.get('/api/trackers/:uuid', function (req, res, next) {
 
 
 if (CONFIG.https){
-    https.createServer(sslOptions, app).listen(443);
+    const sslOptions = {
+        cert: fs.readFileSync(CONFIG.ssl.certPath),
+        key: fs.readFileSync(CONFIG.ssl.keyPath),
+    };
+
+    https.createServer(sslOptions, app).listen(PORT, function () {
+        console.log('loading https on port', PORT);
+    });
 } else {
-    app.listen(port, function () {
-        console.log('listening on port', port);
+    app.listen(PORT, function () {
+        console.log('listening on port', PORT);
     })
 }

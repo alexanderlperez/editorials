@@ -6,7 +6,6 @@ import Users from '../Pages/Users.js';
 import Articles from '../Pages/Articles.js';
 import Article from '../Pages/Article.js';
 import Edit from '../Pages/Edit.js';
-
 import CONFIG from '../config.json';
 
 function Dashboard({location, authorId}) {

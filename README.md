@@ -23,18 +23,25 @@ sudo apt-get install sqlite3
 
 Configure src/config.json:
 
+- NOTE: there's rudimentary support for being hosted over HTTPS
+
 ```
 {
+    "host": "http://localhost:3001",
+    "port": 3001,
+    "https": false,
+    "dbFile": "./ne-editorials.db",
     "clientUrl": "http://localhost:3000",
-        "host": "http://localhost:3001",
-        "port": 3001,
-        "dbFile": "./ne-editorials.db",
-        "smtp": {
-            "host": "smtp.gmail.com",
-            "port": 465,
-            "username": "YOUR_EMAIL@gmail.com",
-            "password": "APP_PASSWORD"
-        }
+    "smtp": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "username": "YOUR_EMAIL@gmail.com",
+        "password": "APP_PASSWORD"
+    },
+    "ssl": {
+        "certPath": "PATH_TO_CERT.crt",
+        "keyPath": "PATH_TO_KEY.pem"
+    }
 }
 ```
 
@@ -45,10 +52,11 @@ Running the app:
 ```
 npm install
 
-# run this in another terminal instance
+# start the backend API service
 node ne-server.js 
 
 # this starts the frontend
+# run this in another terminal instance
 npm start
 ```
 
@@ -56,12 +64,13 @@ npm start
 
 ### Credits and Attributions
 
-- email submission code courtesy of nodemailer.com 
+- email submission code courtesy of docs @ nodemailer.com 
 - sqlite3 module docs at https://github.com/mapbox/node-sqlite3/wiki
 - keeping whitespace in text area: https://stackoverflow.com/a/30593806/1817379
 - Reactstrap snippets from: https://reactstrap.github.io/
+- https with node: https://www.sitepoint.com/how-to-use-ssltls-with-node-js/
 - pushing to github pages: https://github.com/gitname/react-gh-pages
-- https with express: https://contextneutral.com/story/creating-an-https-server-with-nodejs-and-express
+- hosting an SPA with github pages: https://github.com/rafrex/spa-github-pages
 
 ### Reason for library choices:
 
@@ -70,9 +79,14 @@ For example, node-sqlite3 is backed by Mapbox.  It uses node-style callbacks, bu
 
 ### Considerations for further development:
 
+- Extract endpoints to modules:
+As the number of endpoints increases, so does the backend code become unwieldy. Common endpoint bases would be extracted to their own modules. 
+
 - State organization:
 Most components right now are stateful, further development would find state being pulled upward and towards state-containers using children props.  
 
 - Error Handling:
-Right now errors are logged to console, and network errors mostly result in a React stack trace. 
+Right now errors are logged to console, and network errors mostly result in a React stack trace. A logging service would be useful, to create parseable logs and store for retrieval. UI elements to handle the various error states would be helpful for users.
 
+- Debouncing UI buttons for async actions: 
+Some UI actions can be run multiple times before async operations are finished, ex. the "Share" request can be fired multiple times before the initial request finishes and closes the modal.

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ListGroup } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import ArticleListing from '../Components/ArticleListing';
-
 import CONFIG from '../config.json';
 
 class Articles extends Component {
@@ -76,7 +75,7 @@ class Articles extends Component {
                 <h1>Articles</h1> 
                 <div className="row">
                     <div className="col">
-                        <Link to={CONFIG.prefix + "/article/edit/new"} className="btn btn-primary">Create New Article</Link>
+                        <Link to={CONFIG.prefix + "/article/edit/new"} className="NewButton btn btn-primary">Create New Article</Link>
 
                         <ListGroup className="ArticlesList">
                             {this.state.articles.map((article, i) => (

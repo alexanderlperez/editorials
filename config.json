@@ -1,0 +1,17 @@
+{
+    "host": "http://localhost:3001",
+    "port": 3001,
+    "https": false,
+    "dbFile": "./ne-editorials.db",
+    "clientUrl": "http://localhost:3000",
+    "smtp": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "username": "YOUR_EMAIL@gmail.com",
+        "password": "APP_PASSWORD"
+    },
+    "ssl": {
+        "certPath": "PATH_TO_CERT.crt",
+        "keyPath": "PATH_TO_KEY.pem"
+    }
+}
