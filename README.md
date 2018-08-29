@@ -42,8 +42,8 @@ sudo apt-get install sqlite3
         "password": "APP_PASSWORD"
     },
     "ssl": {
-        "certPath": "PATH_TO_CERT.crt",
-        "keyPath": "PATH_TO_KEY.pem"
+        "certPath": "PATH_TO_CERT",
+        "keyPath": "PATH_TO_KEY"
     }
 }
 ```
