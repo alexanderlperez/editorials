@@ -7,7 +7,7 @@ class Edit extends Component {
     constructor(props) {
         super(props);
 
-        const isNew = props.match.params.id == 'new'; // url -> /article/edit/new
+        const isNew = props.match.params.id === 'new'; // url -> /article/edit/new
 
         this.state = {
             isNew,

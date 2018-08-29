@@ -14,7 +14,7 @@ class PublicArticle extends Component {
     }
 
     componentDidMount() {
-        const publicArticleId = parseInt(this.props.match.params.id)
+        const publicArticleId = parseInt(this.props.match.params.id, 10)
 
         //1. Check If Public: check that there is a share for this
         fetch(CONFIG.api + '/articles/' + publicArticleId + "/shares")

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
 import SharesList from '../Components/SharesList.js';
-
 import CONFIG from '../config.json';
 
 class Home extends Component {

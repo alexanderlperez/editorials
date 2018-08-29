@@ -63,7 +63,7 @@ class Share extends Component {
     render() {
         return (
             <React.Fragment>
-                <a href="#" onClick={this.toggle}>Share</a>
+                <a href="" onClick={this.toggle}>Share</a>
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Share to User</ModalHeader>

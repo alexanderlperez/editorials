@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
-import CONFIG from '../config.json';
+import { Badge, ListGroup, ListGroupItem } from 'reactstrap';
 
 class Home extends Component {
     constructor(props) {
