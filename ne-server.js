@@ -324,7 +324,7 @@ app.get('/api/trackers/:uuid', function (req, res, next) {
             return;
         }
 
-        res.redirect(CONFIG.clientUrl + "/article/" + article.id)
+        res.redirect(CONFIG.clientUrl + "/public/" + article.id)
         res.end();
     })
 })
