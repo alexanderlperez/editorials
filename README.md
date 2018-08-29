@@ -7,6 +7,7 @@ Pragmatic, no frills, functional. Mildly delightful.
 - sqlite3
 - node
 - smtp-accesible email account
+
 For Google, follow the directions for "How to generate an app password" at: https://support.google.com/accounts/answer/185833
 
 - database: needs editor w/ id 0 right now, configurable in src/App.js
