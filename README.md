@@ -48,7 +48,6 @@ node ne-server.js
 
 # this starts the frontend
 npm start
-
 ```
 
 ## Notes

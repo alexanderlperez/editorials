@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText  } from 'reactstrap';
 import { Link } from 'react-router-dom'
-import ArticlesList from '../Components/ArticlesList';
+import ArticleListing from '../Components/ArticleListing';
 
 import CONFIG from '../config.json';
 
@@ -31,9 +31,8 @@ class Articles extends Component {
     deleteArticle(e, id) {
         e.preventDefault();
 
-        // Surprise encounter:
-        // mystery why 'self' is needed here in spite of fat-arrow syntax in fetch/Promise callback
-        // ie. since 'this' is still the class instance reference, shouldn't the callback retain that...
+        // Surprise encounter: 'this' loses context...
+        // mystery why 'self' is needed here, in spite of the fat-arrow syntax in callback
         var self = this; 
 
         fetch(CONFIG.api + '/articles/' + id, { method: 'DELETE' })
@@ -50,9 +49,8 @@ class Articles extends Component {
     duplicateArticle(e, id) {
         e.preventDefault();
 
-        // Surprise encounter:
-        // mystery why 'self' is needed here in spite of fat-arrow syntax in fetch/Promise callback
-        // ie. since 'this' is still the class instance reference, shouldn't the callback retain that...
+        // Surprise encounter: 'this' loses context...
+        // mystery why 'self' is needed here, in spite of the fat-arrow syntax in callback
         var self = this; 
 
         // Opted to duplicate articles using the current editor/authorId rather than the one set in the article, 
@@ -79,7 +77,17 @@ class Articles extends Component {
                 <div className="row">
                     <div className="col">
                         <Link to="/article/edit/new" className="btn btn-primary">Create New Article</Link>
-                        <ArticlesList articles={this.state.articles} />
+
+                        <ListGroup className="ArticlesList">
+                            {this.state.articles.map((article, i) => (
+                                <ArticleListing 
+                                    key={i} 
+                                    authorId={this.props.authorId} 
+                                    article={article}
+                                    deleteHandler={this.deleteArticle} 
+                                    duplicateHandler={this.duplicateArticle} />
+                            ))}
+                        </ListGroup>
                     </div>
                 </div>
             </div>
