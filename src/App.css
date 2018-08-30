@@ -25,7 +25,8 @@ body {
     overflow-y: scroll;
 }
 
-.Article .body {
+.Article .body,
+.PublicArticle .body {
     white-space: pre-wrap;
 }
 
