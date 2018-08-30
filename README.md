@@ -7,6 +7,7 @@ Pragmatic, no frills, functional. Mildly delightful.
 - sqlite3
 - node
 - smtp-accesible email account
+
 For Google, follow the directions for "How to generate an app password" at: https://support.google.com/accounts/answer/185833
 
 - database: needs editor w/ id 0 right now, configurable in src/App.js
@@ -41,8 +42,8 @@ sudo apt-get install sqlite3
         "password": "APP_PASSWORD"
     },
     "ssl": {
-        "certPath": "PATH_TO_CERT.crt",
-        "keyPath": "PATH_TO_KEY.pem"
+        "certPath": "PATH_TO_CERT",
+        "keyPath": "PATH_TO_KEY"
     }
 }
 ```
